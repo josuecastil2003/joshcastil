@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tabla de Multiplicar</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #1e2526, #2cc3ff);
+    }
+
+    .app {
+      background: #1f2937;
+      padding: 2.5rem;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      color: white;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 1rem;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .calculate {
+      background: #22c55e;
+      color: white;
+    }
+
+    .calculate:hover {
+      background: #16a34a;
+    }
+
+    .clear {
+      background: #ef4444;
+      color: white;
+    }
+
+    .clear:hover {
+      background: #dc2626;
+    }
+
+    .result {
+      background: #111827;
+      padding: 1rem;
+      border-radius: 10px;
+      min-height: 200px;
+      white-space: pre-line;
+      font-family: monospace;
+      overflow-y: auto;
+    }
+
+    .error {
+      color: #f87171;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+    <h1>Tabla de Multiplicar</h1>
+
+    <input 
+      type="number" 
+      id="numberInput" 
+      placeholder="Ingresa un número"
+    />
+
+    <div class="error" id="errorMsg"></div>
+
+    <div class="buttons">
+      <button class="calculate" id="calculateBtn">Calcular</button>
+      <button class="clear" id="clearBtn">Limpiar</button>
+    </div>
+
+    <div class="result" id="resultBox"></div>
+  </div>
+
+  <script>
+    const input = document.getElementById("numberInput");
+    const calculateBtn = document.getElementById("calculateBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const resultBox = document.getElementById("resultBox");
+    const errorMsg = document.getElementById("errorMsg");
+
+    function generateTable(number) {
+      let output = `Tabla del ${number}\n\n`;
+      for (let i = 1; i <= 12; i++) {
+        output += `${number} × ${i} = ${number * i}\n`;
+      }
+      return output;
+    }
+
+    function handleCalculate() {
+      const value = input.value.trim();
+
+      if (value === "") {
+        errorMsg.textContent = "Por favor ingresa un número.";
+        resultBox.textContent = "";
+        return;
+      }
+
+      const number = Number(value);
+
+      if (isNaN(number)) {
+        errorMsg.textContent = "El valor ingresado no es válido.";
+        resultBox.textContent = "";
+        return;
+      }
+
+      errorMsg.textContent = "";
+      resultBox.textContent = generateTable(number);
+    }
+
+    function handleClear() {
+      input.value = "";
+      resultBox.textContent = "";
+      errorMsg.textContent = "";
+      input.focus();
+    }
+
+    calculateBtn.addEventListener("click", handleCalculate);
+    clearBtn.addEventListener("click", handleClear);
+
+    // Permitir presionar Enter
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        handleCalculate();
+      }
+    });
+  </script>
+
+</body>
+</html>
